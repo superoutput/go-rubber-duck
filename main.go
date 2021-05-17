@@ -7,8 +7,14 @@ import "time"
 import "github.com/urfave/cli/v2"
 import tl "github.com/JoelOtter/termloop"
 
+type BaseGraphic struct {
+	*tl.BaseLevel
+}
+
 type Avatar struct {
 	*tl.Entity
+	m *Mouth
+	e *Eye
 }
 
 type Mouth struct {
@@ -17,6 +23,39 @@ type Mouth struct {
 
 type Eye struct {
 	*tl.Entity
+}
+
+func (i *Avatar) Draw(s *tl.Screen) {
+	i.Entity.Draw(s)
+}
+
+func (i *Avatar) Tick(ev tl.Event) {
+	if ev.Type == tl.EventKey {
+		x1, y1 := i.Entity.Position()
+		x2, y2 := i.m.Entity.Position()
+		x3, y3 := i.e.Entity.Position()
+		switch ev.Key {
+		case tl.KeyArrowRight:
+			x1 += 1
+			x2 += 1
+			x3 += 1
+		case tl.KeyArrowLeft:
+			x1 -= 1
+			x2 -= 1
+			x3 -= 1
+		case tl.KeyArrowUp:
+			y1 -= 1
+			y2 -= 1
+			y3 -= 1
+		case tl.KeyArrowDown:
+			y1 += 1
+			y2 += 1
+			y3 += 1
+		}
+		i.Entity.SetPosition(x1, y1)
+		i.m.Entity.SetPosition(x2, y2)
+		i.e.Entity.SetPosition(x3, y3)
+	}
 }
 
 // create duck avatar body
@@ -79,12 +118,12 @@ func createEyes(color tl.Attr) *tl.Canvas {
 		Fg: tl.ColorBlack,
 	}
 
-	draw(canvas, cell, 17, 15, "▂▄▀▀▀▄▂")
-	draw(canvas, cell, 27, 15, "▂▄▀▀▀▄▂")
-	draw(canvas, cell, 16, 16, "▄▀▄██▄ █")
-	draw(canvas, cell, 27, 16, "█ ▄██▄▀▄")
-	draw(canvas, cell, 16, 17, "█▄███▂▄▀")
-	draw(canvas, cell, 27, 17, "▀▄▂███▄█")
+	draw(canvas, cell, 15, 15, "▂▄▀▀▀▄▂")
+	draw(canvas, cell, 28, 15, "▂▄▀▀▀▄▂")
+	draw(canvas, cell, 14, 16, "▄▀▄██▄ █")
+	draw(canvas, cell, 28, 16, "█ ▄██▄▀▄")
+	draw(canvas, cell, 14, 17, "█▄███▂▄▀")
+	draw(canvas, cell, 28, 17, "▀▄▂███▄█")
 
 	return &canvas
 }
@@ -109,9 +148,14 @@ func main() {
 		Ch: '.',
 	})
 
-	avatar := Avatar{tl.NewEntityFromCanvas(0, 0, *createBody(tl.ColorRed))}
 	mouth := Mouth{tl.NewEntityFromCanvas(0, 0, *createMouth(tl.ColorRed))}
 	eye := Eye{tl.NewEntityFromCanvas(0, 0, *createEyes(tl.ColorRed))}
+	avatar := Avatar{
+		tl.NewEntityFromCanvas(0, 0, *createBody(tl.ColorRed)),
+		&mouth,
+		&eye,
+	}
+
 	level.AddEntity(&avatar)
 	level.AddEntity(&mouth)
 	level.AddEntity(&eye)
