@@ -25,15 +25,15 @@ type Eye struct {
 	*tl.Entity
 }
 
-func (i *Avatar) Draw(s *tl.Screen) {
-	i.Entity.Draw(s)
+func (a *Avatar) Draw(s *tl.Screen) {
+	a.Entity.Draw(s)
 }
 
-func (i *Avatar) Tick(ev tl.Event) {
+func (a *Avatar) Tick(ev tl.Event) {
 	if ev.Type == tl.EventKey {
-		x1, y1 := i.Entity.Position()
-		x2, y2 := i.m.Entity.Position()
-		x3, y3 := i.e.Entity.Position()
+		x1, y1 := a.Entity.Position()
+		x2, y2 := a.m.Entity.Position()
+		x3, y3 := a.e.Entity.Position()
 		switch ev.Key {
 		case tl.KeyArrowRight:
 			x1 += 1
@@ -52,49 +52,49 @@ func (i *Avatar) Tick(ev tl.Event) {
 			y2 += 1
 			y3 += 1
 		}
-		i.Entity.SetPosition(x1, y1)
-		i.m.Entity.SetPosition(x2, y2)
-		i.e.Entity.SetPosition(x3, y3)
+		a.Entity.SetPosition(x1, y1)
+		a.m.Entity.SetPosition(x2, y2)
+		a.e.Entity.SetPosition(x3, y3)
 	}
 }
 
 // create duck avatar body
-func createBody(color tl.Attr) *tl.Canvas {
+func CreateBody(color tl.Attr) *tl.Canvas {
 	canvas := tl.NewCanvas(500, 500)
 	cell := tl.Cell{
 		Bg: tl.ColorDefault,
 		Fg: tl.RgbTo256Color(252, 226, 5),
 	}
 
-	draw(canvas, cell, 19, 10, "▀▄▄▂")
-	draw(canvas, cell, 26, 10, "▂▄█▀")
-	draw(canvas, cell, 21, 11, "▀█▄")
-	draw(canvas, cell, 25, 11, "▄██▀")
-	draw(canvas, cell, 16, 12, "▂▄▄▄██████████▄▄▄▂")
-	draw(canvas, cell, 13, 13, "▂▄████████████████████▄▂")
-	draw(canvas, cell, 12, 14, "▄████████████████████████▄")
-	draw(canvas, cell, 12, 15, "██████████████████████████")
-	draw(canvas, cell, 12, 16, "██████████████████████████")
-	draw(canvas, cell, 11, 17, "▄██████████████████████████▄")
-	draw(canvas, cell, 9, 18, "▄██████████████████████████████▄")
-	draw(canvas, cell, 8, 19, "▄████████████████████████████████▄")
-	draw(canvas, cell, 8, 20, "▀████████████████████████████████▀")
-	draw(canvas, cell, 10, 21, "▀▀▀▀██████████████████████▀▀▀▀")
-	draw(canvas, cell, 16, 22, "▀▀▀▀██████████▀▀▀▀")
-	draw(canvas, cell, 16, 23, "▂▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▂")
-	draw(canvas, cell, 13, 24, "▄██████████████████████▄")
-	draw(canvas, cell, 11, 25, "▄██████████████████████████▄")
-	draw(canvas, cell, 11, 26, "▄██████████████████████████▄")
-	draw(canvas, cell, 11, 27, "▀██████████████████████████▀")
-	draw(canvas, cell, 12, 28, "▀████████████████████████▀")
-	draw(canvas, cell, 13, 29, "▀▀████████████████████▀▀")
-	draw(canvas, cell, 16, 30, "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀")
+	Draw(canvas, cell, 19, 10, "▀▄▄▂")
+	Draw(canvas, cell, 26, 10, "▂▄█▀")
+	Draw(canvas, cell, 21, 11, "▀█▄")
+	Draw(canvas, cell, 25, 11, "▄██▀")
+	Draw(canvas, cell, 16, 12, "▂▄▄▄██████████▄▄▄▂")
+	Draw(canvas, cell, 13, 13, "▂▄████████████████████▄▂")
+	Draw(canvas, cell, 12, 14, "▄████████████████████████▄")
+	Draw(canvas, cell, 12, 15, "██████████████████████████")
+	Draw(canvas, cell, 12, 16, "██████████████████████████")
+	Draw(canvas, cell, 11, 17, "▄██████████████████████████▄")
+	Draw(canvas, cell, 9, 18, "▄██████████████████████████████▄")
+	Draw(canvas, cell, 8, 19, "▄████████████████████████████████▄")
+	Draw(canvas, cell, 8, 20, "▀████████████████████████████████▀")
+	Draw(canvas, cell, 10, 21, "▀▀▀▀██████████████████████▀▀▀▀")
+	Draw(canvas, cell, 16, 22, "▀▀▀▀██████████▀▀▀▀")
+	Draw(canvas, cell, 16, 23, "▂▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▂")
+	Draw(canvas, cell, 13, 24, "▄██████████████████████▄")
+	Draw(canvas, cell, 11, 25, "▄██████████████████████████▄")
+	Draw(canvas, cell, 11, 26, "▄██████████████████████████▄")
+	Draw(canvas, cell, 11, 27, "▀██████████████████████████▀")
+	Draw(canvas, cell, 12, 28, "▀████████████████████████▀")
+	Draw(canvas, cell, 13, 29, "▀▀████████████████████▀▀")
+	Draw(canvas, cell, 16, 30, "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀")
 
 	return &canvas
 }
 
 // create duck avatar's mouth
-func createMouth(color tl.Attr) *tl.Canvas {
+func CreateMouth(color tl.Attr) *tl.Canvas {
 	canvas := tl.NewCanvas(500, 500)
 	cell := tl.Cell{
 		// Bg: tl.RgbTo256Color(255, 250, 80),
@@ -102,33 +102,33 @@ func createMouth(color tl.Attr) *tl.Canvas {
 		Fg: tl.RgbTo256Color(255, 131, 0),
 	}
 
-	draw(canvas, cell, 20, 18, "▂▄▄████▄▄▂")
-	draw(canvas, cell, 13, 19, "▂▄▂▂▄██████████████▄▂▂▄▂")
-	draw(canvas, cell, 13, 20, "▀█▀▀▀███▄▄▂▂▂▂▄▄███▀▀▀█▀")
-	draw(canvas, cell, 19, 21, "▀▀▀██████▀▀▀")
+	Draw(canvas, cell, 20, 18, "▂▄▄████▄▄▂")
+	Draw(canvas, cell, 13, 19, "▂▄▂▂▄██████████████▄▂▂▄▂")
+	Draw(canvas, cell, 13, 20, "▀█▀▀▀███▄▄▂▂▂▂▄▄███▀▀▀█▀")
+	Draw(canvas, cell, 19, 21, "▀▀▀██████▀▀▀")
 
 	return &canvas
 }
 
 // create duck avatar's eyes
-func createEyes(color tl.Attr) *tl.Canvas {
+func CreateEyes(color tl.Attr) *tl.Canvas {
 	canvas := tl.NewCanvas(500, 500)
 	cell := tl.Cell{
 		Bg: tl.RgbTo256Color(255, 210, 15),
 		Fg: tl.ColorBlack,
 	}
 
-	draw(canvas, cell, 15, 15, "▂▄▀▀▀▄▂")
-	draw(canvas, cell, 28, 15, "▂▄▀▀▀▄▂")
-	draw(canvas, cell, 14, 16, "▄▀▄██▄ █")
-	draw(canvas, cell, 28, 16, "█ ▄██▄▀▄")
-	draw(canvas, cell, 14, 17, "█▄███▂▄▀")
-	draw(canvas, cell, 28, 17, "▀▄▂███▄█")
+	Draw(canvas, cell, 15, 15, "▂▄▀▀▀▄▂")
+	Draw(canvas, cell, 28, 15, "▂▄▀▀▀▄▂")
+	Draw(canvas, cell, 14, 16, "▄▀▄██▄ █")
+	Draw(canvas, cell, 28, 16, "█ ▄██▄▀▄")
+	Draw(canvas, cell, 14, 17, "█▄███▂▄▀")
+	Draw(canvas, cell, 28, 17, "▀▄▂███▄█")
 
 	return &canvas
 }
 
-func draw(canvas tl.Canvas, cell tl.Cell, x, y int, s string) {
+func Draw(canvas tl.Canvas, cell tl.Cell, x, y int, s string) {
 	for i, c := range []rune(s) {
 		canvas[x+i][y].Ch = c
 		canvas[x+i][y].Bg = cell.Bg
@@ -148,10 +148,10 @@ func main() {
 		Ch: '.',
 	})
 
-	mouth := Mouth{tl.NewEntityFromCanvas(0, 0, *createMouth(tl.ColorRed))}
-	eye := Eye{tl.NewEntityFromCanvas(0, 0, *createEyes(tl.ColorRed))}
+	mouth := Mouth{tl.NewEntityFromCanvas(0, 0, *CreateMouth(tl.ColorRed))}
+	eye := Eye{tl.NewEntityFromCanvas(0, 0, *CreateEyes(tl.ColorRed))}
 	avatar := Avatar{
-		tl.NewEntityFromCanvas(0, 0, *createBody(tl.ColorRed)),
+		tl.NewEntityFromCanvas(0, 0, *CreateBody(tl.ColorRed)),
 		&mouth,
 		&eye,
 	}
